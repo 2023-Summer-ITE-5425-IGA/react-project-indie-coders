@@ -24,4 +24,8 @@ router.put('/:id', postController.updatePost);
 // Delete a post
 router.delete('/:id', postController.deletePost);
 
+// PUT /api/posts/:postId/like
+router.put('/:postId/like', postController.likePost);
+
 module.exports = router;
+

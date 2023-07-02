@@ -85,6 +85,10 @@ userroute.post('/', asynchandler( async(req,res)=>{
   
   
   }))
-
+  userroute.get('/username', protect, async (req, res) => {
+    res.json({
+      username: req.user.name
+    });
+  });  
 
   module.exports = userroute  

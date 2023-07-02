@@ -80,3 +80,27 @@ exports.deletePost = async (req, res) => {
     res.status(500).json({ message: 'Server Error' });
   }
 };
+
+// PUT /api/posts/:postId/like
+exports.likePost = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+
+    // Find the post by ID
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    // Increment the like count
+    post.like += 1;
+
+    // Save the updated post to the database
+    await post.save();
+
+    res.json({ message: 'Likes count updated successfully', updatedLikeCount: post.like });
+  } catch (error) {
+    console.error('Error updating likes count:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};

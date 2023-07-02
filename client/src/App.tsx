@@ -5,6 +5,7 @@ import PrivacyPolicy from './components/privacy-policy';
 import ContactUs from './components/contact-us';
 import './App.css';
 import Feed from './components/feed';
+import PostsList from './components/post';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/contact-us" element={<ContactUs />} />
+            <Route path="/post" element={<PostsList />} />
             <Route path="/feed" element={<Feed />} />
           </Routes>
       </BrowserRouter>
