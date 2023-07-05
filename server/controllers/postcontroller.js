@@ -104,3 +104,47 @@ exports.likePost = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+// Add a comment to a post
+exports.addComment = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    const { comment } = req.body;
+
+    // Find the post by ID
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    // Add the comment to the post's comments array
+    post.comments.push(comment);
+
+    // Save the updated post to the database
+    await post.save();
+
+    res.json({ message: 'Comment added successfully', updatedComments: post.comments });
+  } catch (error) {
+    console.error('Error adding comment:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+// Get comments for a specific post
+exports.getCommentsByPostId = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+
+    // Find the post by ID
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    // Retrieve the comments for the post
+    const comments = post.comments;
+
+    res.json(comments);
+  } catch (error) {
+    console.error('Error retrieving comments:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};

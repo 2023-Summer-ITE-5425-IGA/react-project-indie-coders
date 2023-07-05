@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/feed.css';
 import '../styles/Navigation.css';
@@ -12,12 +11,18 @@ interface Post {
   date: string;
   time: string;
   like: number;
-  comments: string[];
+  comments: Comment[];
   content: {
     text: string;
     images: string[];
     videos: string[];
   };
+}
+
+interface Comment {
+  username: string;
+  _id: string;
+  comment: string;
 }
 
 const Feed: React.FC = () => {
@@ -28,6 +33,8 @@ const Feed: React.FC = () => {
   const [newComment, setNewComment] = useState('');
   const [commentPostId, setCommentPostId] = useState('');
   const [username, setUsername] = useState('');
+  const [openCommentPostId, setOpenCommentPostId] = useState('');
+  const [expandedComments, setExpandedComments] = useState<string[]>([]);
 
   useEffect(() => {
     fetchPosts();
@@ -38,7 +45,15 @@ const Feed: React.FC = () => {
     try {
       const response = await fetch('http://localhost:3200/api/posts');
       const data = await response.json();
-      setPosts(data);
+      const updatedPosts = data.map((post: Post) => {
+        const storedComments = localStorage.getItem(`comments_${post._id}`);
+        const comments = storedComments ? JSON.parse(storedComments) : post.comments;
+        return {
+          ...post,
+          comments: comments,
+        };
+      });
+      setPosts(updatedPosts);
     } catch (error) {
       console.error('Error fetching posts:', error);
     }
@@ -124,6 +139,7 @@ const Feed: React.FC = () => {
 
   const handleComment = (postId: string) => {
     setCommentPostId(postId);
+    setOpenCommentPostId(postId);
   };
 
   const addComment = async () => {
@@ -136,9 +152,22 @@ const Feed: React.FC = () => {
         body: JSON.stringify({ comment: newComment }),
       });
       if (response.ok) {
+        const updatedPosts = posts.map((post) => {
+          if (post._id === commentPostId) {
+            const newCommentObj = { _id: 'temp-id', username: username, comment: newComment };
+            const updatedComments = [...post.comments, newCommentObj];
+            localStorage.setItem(`comments_${post._id}`, JSON.stringify(updatedComments));
+            return {
+              ...post,
+              comments: updatedComments,
+            };
+          }
+          return post;
+        });
+        setPosts(updatedPosts);
         setNewComment('');
         setCommentPostId('');
-        fetchPosts();
+        setOpenCommentPostId('');
       }
     } catch (error) {
       console.error('Error adding comment:', error);
@@ -151,11 +180,26 @@ const Feed: React.FC = () => {
         method: 'DELETE',
       });
       if (response.ok) {
-        fetchPosts();
+        const updatedPosts = posts.map((post) => {
+          if (post._id === postId) {
+            const updatedComments = post.comments.filter((comment) => comment._id !== commentId);
+            localStorage.setItem(`comments_${post._id}`, JSON.stringify(updatedComments));
+            return {
+              ...post,
+              comments: updatedComments,
+            };
+          }
+          return post;
+        });
+        setPosts(updatedPosts);
       }
     } catch (error) {
       console.error('Error deleting comment:', error);
     }
+  };
+
+  const closeComments = () => {
+    setOpenCommentPostId('');
   };
 
   return (
@@ -202,58 +246,81 @@ const Feed: React.FC = () => {
               {post.content.images.length > 0 && (
                 <div className="post-images">
                   {post.content.images.map((image) => (
-                    <img key={image} src={image} alt="Post Image" 
-                    style={{ maxWidth: '626px', maxHeight: '417px', margin: '0 auto' }}/>
+                    <img key={image} src={image} alt="Post Image" style={{ maxWidth: '626px', maxHeight: '417px', margin: '0 auto' }} />
                   ))}
                 </div>
               )}
               {post.content.videos.length > 0 && (
                 <div className="post-videos">
                   {post.content.videos.map((video) => (
-                    <video key={video} src={video} controls
-                    style={{ maxWidth: '626px', maxHeight: '417px', margin: '0 auto' }}>
-                      Your browser does not support the video tag.
-                    </video>
+                    <video
+                      key={video}
+                      controls
+                      src={video}
+                      style={{ maxWidth: '626px', maxHeight: '417px', margin: '0 auto' }}
+                    />
                   ))}
                 </div>
               )}
             </div>
+            <hr />
             <div className="post-actions">
-              <button className="likeBtn" onClick={() => updateLikesCount(post._id)}>
-                Likes: {post.like}
+              <button className="like-btn" onClick={() => updateLikesCount(post._id)}>
+                {post.like} Likes
               </button>
-              <button className="commentBtn" onClick={() => handleComment(post._id)}>
-                Comments: {post.comments.length}
+              <button className="comment-btn" onClick={() => handleComment(post._id)}>
+                {post.comments.length} Comments
               </button>
               {username === post.username && (
-                <button className="deleteBtn" onClick={() => deletePost(post._id)}>
-                  Delete
+                <button className="delete-btn" onClick={() => deletePost(post._id)}>
+                  Delete Post
                 </button>
               )}
             </div>
-            {commentPostId === post._id && (
-              <div className="add-comment">
-                <textarea
+            {openCommentPostId === post._id && (
+              <div className="comments-section">
+                <ul className="comment-list">
+                  {post.comments.slice(0, expandedComments.includes(post._id) ? undefined : 3).map((comment) => (
+                    <li key={comment._id}>
+                      <span className="comment-username">{comment.username}: </span>
+                      <span>{comment.comment}</span>
+                    </li>
+                  ))}
+                </ul>
+                {post.comments.length > 3 && !expandedComments.includes(post._id) && (
+                  <button
+                    className="expand-comments-btn"
+                    onClick={() => setExpandedComments((prevExpanded) => [...prevExpanded, post._id])}
+                  >
+                    View all comments
+                    <br/>
+                  </button>
+                )}
+                {expandedComments.includes(post._id) && (
+                  <button
+                    className="collapse-comments-btn"
+                    onClick={() => setExpandedComments((prevExpanded) => prevExpanded.filter((id) => id !== post._id))}
+                  >
+                    Latest comments
+                  </button>
+                )}
+                <input
+                  type="text"
                   className="comment-input"
-                  placeholder="Write a comment"
+                  placeholder="Write a comment..."
                   value={newComment}
                   onChange={(e) => setNewComment(e.target.value)}
                 />
-                <button className="add-comment-btn" onClick={addComment}>
-                  Add Comment
-                </button>
-              </div>
-            )}
-            <div className="comments-section">
-              {post.comments.map((comment, index) => (
-                <div key={index} className="comment">
-                  <p>{comment}</p>
-                  <button className="delete-comment-btn" onClick={() => deleteComment(post._id, comment)}>
-                    Delete
+                <div className="comment-actions">
+                  <button className="add-comment-btn" onClick={addComment}>
+                    Add Comment
+                  </button>
+                  <button className="cancel-comment-btn" onClick={closeComments}>
+                    Cancel
                   </button>
                 </div>
-              ))}
-            </div>
+              </div>
+            )}        
           </div>
         ))}
       </div>

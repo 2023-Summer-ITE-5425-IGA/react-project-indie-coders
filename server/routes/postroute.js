@@ -27,5 +27,11 @@ router.delete('/:id', postController.deletePost);
 // PUT /api/posts/:postId/like
 router.put('/:postId/like', postController.likePost);
 
+// Get comments for a specific post
+router.get('/:postId/comments', postController.getCommentsByPostId);
+
+// Add a comment to a post
+router.post('/:postId/comments', postController.addComment);
+
 module.exports = router;
 

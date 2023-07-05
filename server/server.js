@@ -11,7 +11,7 @@ let {errorhandler} = require('./middleware/errormiddleware')
 app.use(cors())
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/regplatform').then(()=>{
+mongoose.connect('mongodb+srv://Darshan:indiecoders@cluster0.2nlejwd.mongodb.net/regplatform?retryWrites=true&w=majority').then(()=>{
     console.log('mongo connected')    
     }).catch((err)=>{
     console.log(err)         
