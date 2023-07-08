@@ -6,6 +6,7 @@ import ContactUs from './components/contact-us';
 import './App.css';
 import Feed from './components/feed';
 import PostsList from './components/post';
+import Profile from './components/profile';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/post" element={<PostsList />} />
             <Route path="/feed" element={<Feed />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
       </BrowserRouter>
     </div>

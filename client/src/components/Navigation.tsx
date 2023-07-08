@@ -24,6 +24,7 @@ const Navigation: React.FC = () => {
         <a href="/privacy-policy">Privacy Policy</a>
         <a href="/contact-us">Contact Us</a>
         <a href="/post">Post</a>
+        <a href="/profile">Profile</a>
         <a href="/login" onClick={logout} className="logout-link">Logout</a>
       </div>
     </div>

@@ -7,11 +7,15 @@ let asynchandler = require('express-async-handler')
 let generatetoken = require('../util/token')
 let protect = require('../middleware/authmiddleware')
 let bcrypt = require('bcryptjs')
+const userController = require('../controllers/userController');
 userroute.get('/',(req,res)=>{
 
   res.send('hello')
 
 })
+// PUT /api/profile/:id
+userroute.put('/profile/:id', userController.updateUserDetails);
+
 userroute.post('/login',asynchandler( async(req,res)=>{
   let {email, password} = req.body  
   let user = await User.findOne({email})
@@ -90,5 +94,11 @@ userroute.post('/', asynchandler( async(req,res)=>{
       username: req.user.name
     });
   });  
-
+  userroute.get('/userDetails', protect, async (req, res) => {
+    res.json({
+      username: req.user.name,
+      email: req.user.email,
+      id: req.user._id
+    });
+  });
   module.exports = userroute  
