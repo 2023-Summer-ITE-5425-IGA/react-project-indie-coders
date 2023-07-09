@@ -51,6 +51,8 @@ const Feed: React.FC = () => {
 
       const [activePostId, setActivePostId] = useState<number | null>(null);
   const [newComment, setNewComment] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredPosts, setFilteredPosts] = useState(posts);
 
   const handleLike = (postId: number) => {
     setPosts(prevPosts => {
@@ -90,11 +92,31 @@ const Feed: React.FC = () => {
     setActivePostId(null);
     setNewComment('');
   };
+
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    filterPosts(e.target.value);
+  };
+
+  const filterPosts = (query: string) => {
+    const filtered = posts.filter(post =>
+      post.user.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredPosts(filtered);
+  };
+
   return (
     <>
       <Navigation />
       <div className="container social-media-feed">
-      {posts.map(post => (
+      <input
+          type="text"
+          placeholder="Search by name"
+          value={searchQuery}
+          onChange={handleSearchInputChange}
+          className='search-input'
+        />
+      {filteredPosts.map(post => (
         <div key={post.id} className="post">
           <div className="user-profile">
             <img src={post.profile} alt="Profile" />

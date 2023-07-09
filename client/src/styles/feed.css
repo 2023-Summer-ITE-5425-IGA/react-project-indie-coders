@@ -6,6 +6,9 @@
 .commentBtn{
     width: 150px !important;
 }
+.search-input {
+  margin: 20px 0px;
+}
 .social-media-feed {
     max-width: 800px;
     margin: 0 auto;
