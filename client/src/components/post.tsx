@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/feed.css';
+import '../styles/Post.css';
 import '../styles/Navigation.css';
 import profilepic from '../assets/profilepic.png';
 import Navigation from '../components/Navigation';

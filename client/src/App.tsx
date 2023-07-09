@@ -4,8 +4,8 @@ import Login from './components/login';
 import PrivacyPolicy from './components/privacy-policy';
 import ContactUs from './components/contact-us';
 import './App.css';
-import Feed from './components/feed';
 import PostsList from './components/post';
+import AdminPanel from './components/contact-panel';
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/post" element={<PostsList />} />
-            <Route path="/feed" element={<Feed />} />
+            <Route path="/admin" element={<AdminPanel/>} />
           </Routes>
       </BrowserRouter>
     </div>

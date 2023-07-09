@@ -20,10 +20,9 @@ const Navigation: React.FC = () => {
     <div className="navigation-bar">
       <h2>Social Media</h2>
       <div className="navigation-links">
-        <a href="/feed">Home</a>
+        <a href="/post">Home</a>
         <a href="/privacy-policy">Privacy Policy</a>
         <a href="/contact-us">Contact Us</a>
-        <a href="/post">Post</a>
         <a href="/login" onClick={logout} className="logout-link">Logout</a>
       </div>
     </div>

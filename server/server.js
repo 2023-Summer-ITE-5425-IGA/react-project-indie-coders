@@ -7,6 +7,7 @@ let app = express()
 let cors = require('cors')
 const userroute = require('./routes/userroute')
 const postroute = require('./routes/postroute');
+const contactroute= require('./routes/contactroute');
 let {errorhandler} = require('./middleware/errormiddleware')
 app.use(cors())
 
@@ -22,6 +23,7 @@ mongoose.connect('mongodb+srv://Darshan:indiecoders@cluster0.2nlejwd.mongodb.net
 // Register routes
 app.use('/api/user', userroute)
 app.use('/api/posts', postroute);
+app.use('/api/contact', contactroute);
  app.use(errorhandler)
 app.get('/',(req,res)=>{
      res.send('hello')

@@ -119,6 +119,9 @@ const Login = () => {
                 <a href="/register">Register Here</a>
               </p>
             </div>
+            <div className="text-center mt-3">
+                <a href="/admin">ADMIN PANEL</a>
+            </div>
           </div>
         </form>
       </div>
