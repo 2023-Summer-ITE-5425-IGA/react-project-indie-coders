@@ -55,7 +55,7 @@ const Feed: React.FC = () => {
   const [filteredPosts, setFilteredPosts] = useState(posts);
 
   const handleLike = (postId: number) => {
-    setPosts(prevPosts => {
+    setFilteredPosts(prevPosts => {
       return prevPosts.map(post => {
         if (post.id === postId) {
           return { ...post, likes: post.likes + 1 };
@@ -63,6 +63,7 @@ const Feed: React.FC = () => {
         return post;
       });
     });
+    setPosts(filteredPosts);
   };
 
   const handleComment = (postId: number) => {
@@ -70,7 +71,7 @@ const Feed: React.FC = () => {
   };
 
   const handleAddComment = (postId: number) => {
-    setPosts(prevPosts => {
+    setFilteredPosts(prevPosts => {
       return prevPosts.map(post => {
         if (post.id === postId) {
           const newCommentId = post.comments.length + 1;
@@ -85,6 +86,7 @@ const Feed: React.FC = () => {
         return post;
       });
     });
+    setPosts(filteredPosts);
     setNewComment('');
   };
 
