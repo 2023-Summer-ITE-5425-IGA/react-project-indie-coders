@@ -6,3 +6,4 @@
 
 #### Vishal Kumar :- Made Front-end Login & Register Page.
 
+#### Anuj Goswami:- Create Posts search and Edit Profile Functionality.
