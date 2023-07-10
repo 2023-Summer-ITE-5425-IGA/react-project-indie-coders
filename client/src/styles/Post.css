@@ -11,6 +11,10 @@
   margin: 0 auto;
 }
 
+.search-input {
+  margin: 20px 0px;
+}
+
 .post {
   backdrop-filter: blur(55px);
   border: 1px solid #dddfe2;

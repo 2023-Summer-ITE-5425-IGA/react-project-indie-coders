@@ -6,6 +6,7 @@ import ContactUs from './components/contact-us';
 import './App.css';
 import PostsList from './components/post';
 import AdminPanel from './components/contact-panel';
+import Profile from './components/Profile';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/post" element={<PostsList />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/admin" element={<AdminPanel/>} />
           </Routes>
       </BrowserRouter>

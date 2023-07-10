@@ -35,6 +35,7 @@ const Feed: React.FC = () => {
   const [username, setUsername] = useState('');
   const [openCommentPostId, setOpenCommentPostId] = useState('');
   const [expandedComments, setExpandedComments] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     fetchPosts();
@@ -206,6 +207,13 @@ const Feed: React.FC = () => {
     <>
       <Navigation />
       <div className="container social-media-feed">
+      <input
+        type="text"
+        placeholder="Search by name"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className='search-input'
+      />
         <div className="post create-post">
           <div className="user-profile">
             <img src={profilepic} alt="Profile" />
@@ -234,7 +242,7 @@ const Feed: React.FC = () => {
             </button>
           </div>
         </div>
-        {posts.map((post) => (
+        {posts.filter((post) => post.username.toLowerCase().includes(searchTerm.toLowerCase())).map((post) => (
           <div key={post._id} className="post">
             <div className="user-profile">
               <img src={profilepic} alt="Profile" />
