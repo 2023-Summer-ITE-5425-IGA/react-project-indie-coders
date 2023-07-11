@@ -6,4 +6,4 @@
 
 #### Vishal Kumar :- Made Front-end Login & Register Page.
 
-#### Anuj Goswami:- Create Posts search and Edit Profile Functionality.
+#### Anuj Goswami:- Created Posts search that will fetch data from database and will give the results and User Profile Functionality that includes user's details and it is connected with the database and can be updated and also editable.
