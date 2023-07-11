@@ -75,9 +75,9 @@ const Profile: React.FC = () => {
           </div>
           <button type="submit">Update Profile</button>
         </form>
-        {updateSuccess && <div className="success-message">Profile updated successfully! {setTimeout(() => {
-              setUpdateSuccess(false);
-            }, 5000)}</div>}
+        {updateSuccess && <div className="success-message">Profile updated successfully! 
+       
+            </div>}
         {updateError && <div className="error-message">{updateError}  {setTimeout(() => {
               setUpdateError('');
             }, 5000)}</div>}

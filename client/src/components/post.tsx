@@ -175,29 +175,6 @@ const Feed: React.FC = () => {
     }
   };
 
-  const deleteComment = async (postId: string, commentId: string) => {
-    try {
-      const response = await fetch(`http://localhost:3200/api/posts/${postId}/comments/${commentId}`, {
-        method: 'DELETE',
-      });
-      if (response.ok) {
-        const updatedPosts = posts.map((post) => {
-          if (post._id === postId) {
-            const updatedComments = post.comments.filter((comment) => comment._id !== commentId);
-            localStorage.setItem(`comments_${post._id}`, JSON.stringify(updatedComments));
-            return {
-              ...post,
-              comments: updatedComments,
-            };
-          }
-          return post;
-        });
-        setPosts(updatedPosts);
-      }
-    } catch (error) {
-      console.error('Error deleting comment:', error);
-    }
-  };
 
   const closeComments = () => {
     setOpenCommentPostId('');
@@ -312,8 +289,7 @@ const Feed: React.FC = () => {
                     Latest comments
                   </button>
                 )}
-                <input
-                  type="text"
+                <textarea
                   className="comment-input"
                   placeholder="Write a comment..."
                   value={newComment}
