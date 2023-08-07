@@ -6,7 +6,7 @@ import ContactUs from './components/contact-us';
 import './App.css';
 import PostsList from './components/post';
 import AdminPanel from './components/contact-panel';
-import Profile from './components/Profile';
+import Profile from './components/profile';
 
 function App() {
   return (
