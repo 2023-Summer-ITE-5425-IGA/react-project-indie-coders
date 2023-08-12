@@ -7,6 +7,7 @@ import './App.css';
 import PostsList from './components/post';
 import AdminPanel from './components/contact-panel';
 import Profile from './components/profile';
+import Career from './components/carrer-page';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/post" element={<PostsList />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/admin" element={<AdminPanel/>} />
+            <Route path="/career" element={<Career />} />
           </Routes>
       </BrowserRouter>
     </div>
