@@ -143,9 +143,9 @@ const Feed: React.FC = () => {
     setOpenCommentPostId(postId);
   };
 
- const addComment = async (postId) => {
+ const addComment = async () => {
   try {
-    const response = await fetch(`http://localhost:3200/api/posts/${postId}/comments`, {
+    const response = await fetch(`http://localhost:3200/api/posts/${commentPostId}/comments`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
