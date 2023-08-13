@@ -143,17 +143,17 @@ const Feed: React.FC = () => {
     setOpenCommentPostId(postId);
   };
 
- const addComment = async () => {
-  try {
-    const response = await fetch(`http://localhost:3200/api/posts/${commentPostId}/comments`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, comment: newComment }), // Include the username
-    });
-    if (response.ok){
-          const updatedPosts = posts.map((post) => {
+  const addComment = async () => {
+    try {
+      const response = await fetch(`http://localhost:3200/api/posts/${commentPostId}/comments`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ comment: newComment }),
+      });
+      if (response.ok) {
+        const updatedPosts = posts.map((post) => {
           if (post._id === commentPostId) {
             const newCommentObj = { _id: 'temp-id', username: username, comment: newComment };
             const updatedComments = [...post.comments, newCommentObj];

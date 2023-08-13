@@ -105,11 +105,10 @@ exports.likePost = async (req, res) => {
   }
 };
 // Add a comment to a post
-// Add a comment to a post
 exports.addComment = async (req, res) => {
   try {
     const postId = req.params.postId;
-    const { comment, username } = req.body; // Extract the username from the request body
+    const { comment } = req.body;
 
     // Find the post by ID
     const post = await Post.findById(postId);
@@ -117,8 +116,8 @@ exports.addComment = async (req, res) => {
       return res.status(404).json({ message: 'Post not found' });
     }
 
-    // Add the comment along with the username to the post's comments array
-    post.comments.push({ username, comment });
+    // Add the comment to the post's comments array
+    post.comments.push(comment);
 
     // Save the updated post to the database
     await post.save();
